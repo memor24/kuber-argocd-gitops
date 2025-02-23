@@ -1,15 +1,10 @@
-# kubernetes-helm-gitops
-A node app is deployed on Kubernetes using helm charts:
-- **deployment helm chart:** 
-- **secret management:** creates and applies [regcred secret](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/) to be used in deployment. It can be manaaged by kubectl, or a second helm chart can be created for secret management too! 
-
-GHCR is used instead of DockerHub for container registry. A `GITHUB_TOKEN` is applied for package read/write access to GHCR.
-GitOps is done using ArgoCD. A `KUBECONFIG` secret might be needed for kubectl or ArgoCD access to the cluster.
+# kubernetes-gitops-argocd
+A Kubernetes cluster is running already with a flask app deployed on it from [kuber-helm-cicd repo](https://github.com/memor24/kuber-helm-cicd), and here we want to make sure the cluster (and the app) are in sync with the single source of truth which is this git repo. This is called GitOps and is done using ArgoCD. A `KUBECONFIG` secret might be needed for kubectl or ArgoCD access to the cluster.
 
 ### Prerequisites
 
 - Docker
-- Kind (Kubernetes in Docker)
+- Kind (Kubernetes in Docker) or any running cluster
 - Kubectl
-- Helm
+- Helm (optional; for testing charts manually or in --dry-run)
 - ArgoCD
