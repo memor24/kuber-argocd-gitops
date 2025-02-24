@@ -3,7 +3,7 @@ name: CI of the app itself; CD on KinD will be managed through GitOps with argoC
 on:
   push:
       path: 
-        - 'app/**' # triggers the workflow when the app folder code is recurively changed
+        - 'app/**' # triggers the workflow when the app folder code is updated
       branches:
         - main
 
@@ -29,7 +29,7 @@ jobs:
                 username: ${{ github.actor }}
                 password: ${{ secrets.GITHHUB_TOKEN }}
 
-        - name: build the image
+        - name: build & push the image with updated image tag
           run: |
             docker build -t $Registry/$ImageRepo:$GITHUB_SHA .
             docker push $Registry/$ImageRepo:GITHUB_SHA

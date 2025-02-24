@@ -28,7 +28,7 @@ echo "Creating the application namespace"
 kubectl create namespace "$APP_NAMESPACE"
 
 echo "Creating the app in argoCD and deploying the application with Helm Chart "
-argocd app create my-app-argocd \
+argocd app create my-app \
 --repo git@github.com:memor24/kubernetes-gitops-argocd.git
 --path ../gitops/cluster \
 --dest-server https://kubernetes.default.svc \
