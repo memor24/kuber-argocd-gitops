@@ -3,9 +3,7 @@ A Kubernetes cluster will be running with a flask app deployed on it similar to 
 \
 Here we want to make sure the cluster (and the app) are in sync with the single source of truth which is this git repo. This is called GitOps and is done using ArgoCD. \
 \
-(A KUBECONFIG secret might be needed for kubectl or ArgoCD access to the cluster.) \
-\
-Here, we use `helm` to deploy the app to the cluster and also to install argoCD in the cluster.
+Here, we can use `helm` to deploy the app to the cluster and also to install argoCD in the cluster.
 ### Prerequisites
 
 - Docker
