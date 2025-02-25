@@ -4,7 +4,7 @@ metadata:
   name: {{ .Chart.Name }}
   labels:
 spec:
-  replicas: 2
+  replicas: 3    # pods deployed on each worker node (horizontal manual scaling!!)
   selector:
     matchLabels:
       app: {{ .Chart.Name }}
