@@ -11,5 +11,5 @@ Here, we use `helm` to deploy the app to the cluster and also to install argoCD 
 - Docker
 - Kind (Kubernetes in Docker) or any running cluster
 - Kubectl
-- Helm (optional; testing charts manually or in --dry-run mode, and for easier installation of argocd itself)
+- Helm (optional; for testing manually, or for easier installation of argocd itself)
 - ArgoCD
