@@ -68,4 +68,4 @@ echo "setting up kind cluster and configs"
     setup_cluster
     install_tools4_cluster
     verify_setup
-echo "KinD is ready..."
+echo "KinD is setup and ready..."
