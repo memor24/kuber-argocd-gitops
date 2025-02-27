@@ -6,8 +6,6 @@ on:
         - main
       paths: 
         - 'app/src/**' # triggers the workflow when the app folder code is updated
-workflow_dispatch: # activates manual trigger for testing
-
 env:
     Registry: ghcr.io
     Repository: memor24/imgfolder
