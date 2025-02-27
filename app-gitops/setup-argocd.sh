@@ -1,9 +1,12 @@
 # /bin/bash
 
+#argocd install: https://github.com/argoproj/argo-cd/releases
+
 #variables
 ARGOCD_NAMESPACE="argocd"
-APP_NAMESPACE="app-ns"
-HELM_CHART_DIR="./cluster/helm-chart"
+
+    # extract control plane container ID in KinD
+CP_CONTAINER=$(docker ps -q --filter "name=kind-control-plane")
 
 # install argoCD and its cli
 echo "installing argoCD server"
@@ -21,7 +24,7 @@ echo "waiting for argoCD to get ready"
 
 # configure argoCD server
 echo "configuring argoCD server..."
-echo "Setting up port forwarding to access argoCD locally within cluster"
+echo "Setting up port forwarding to access argoCD locally https://localhost:8080"
     kubectl port-forward svc/argocd-server -n $ARGOCD_NAMESPACE 8080:443 & PORT_FORWARD_PID=$!
 # use loadbalancer or ingress in prod, instead of port-forwarding! 
 
@@ -32,15 +35,13 @@ echo "Setting up port forwarding to access argoCD locally within cluster"
 sleep 5 
 echo "argoCD server setup completed"
 
-echo "setting up argoCD client..."
-# installing argoCD CLI client locally
-    curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 && \
-    chmod +x argocd-linux-amd64 && \
-    mv argocd-linux-amd64 /usr/local/bin/argocd
-
 echo "getting argoCD server initial password to login"
     ARGOCD_PASSWORD=$(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)
 echo "initial_password"=$ARGOCD_PASSWORD ## e.g. for cli/gui initial loggin
+
+
+
+##### install argocd cli locally outside of KinD:
 
 # login from the cluster (argocd client)
 # ARGOCD_PASSWORD is initial password after argoCD server deployed 
@@ -63,15 +64,7 @@ echo "argoCD server version:"
 echo "argoCD client version is:"
     argocd version --client
 
-# deploying the app with helm
-echo "Helm version is:"
-    helm version --short
-if [ -d "$HELM_CHART_DIR" ] ; then
-    helm lint $HELM_CHART_DIR
-    helm install my-app $HELM_CHART_DIR --namespace $APP_NAMESPACE
-else
-    echo "chart directory doesn't exist"
-fi
+
 
 # argocd cli initial commands
 echo "synchronizing the app" 
