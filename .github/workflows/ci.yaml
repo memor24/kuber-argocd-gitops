@@ -6,7 +6,7 @@ on:
         - main
       paths: 
         - 'app/src/**' # triggers the workflow when the app folder code is updated
-#workflow_dispatch: # activates manual trigger for testing
+workflow_dispatch: # activates manual trigger for testing
 
 env:
     Registry: ghcr.io
@@ -19,6 +19,9 @@ jobs:
       contents: read
       packages: write
     steps:
+        - name: Debug repository structure
+          run: ls -R
+
         - name: checkout the code
           uses: actions/checkout@v2
 
@@ -28,6 +31,12 @@ jobs:
                 registry: ${{ env.Registry }}
                 username: ${{ github.actor }}
                 password: ${{ secrets.GITHUB_TOKEN }}
+
+        - name: Debug environment variables
+          run: |
+            echo "Registry: ${{ env.Registry }}"
+            echo "Repository: ${{ env.Repository }}"
+            echo "GITHUB_SHA: ${{ github.sha }}"
 
         - name: build & push the image with updated image tag
           uses: docker/build-push-action@v4
@@ -39,11 +48,6 @@ jobs:
         - name: notifying message
           run: |
             echo "ci job is completed"
-        - name: Debug environment variables
-          run: |
-            echo "Registry: ${{ env.Registry }}"
-            echo "Repository: ${{ env.Repository }}"
-            echo "GITHUB_SHA: ${{ github.sha }}"
-        - name: Debug repository structure
-          run: ls -R
+
+
         
