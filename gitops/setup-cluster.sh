@@ -1,7 +1,5 @@
 #bin/bash
 
-#tst
-
 # variables:
 KIND_CONFIG=./cluster/kind-config.yaml
 
