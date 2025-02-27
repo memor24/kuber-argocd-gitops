@@ -5,7 +5,7 @@ on:
       branches:
         - main
       paths: 
-        - 'app/src/**' # triggers the workflow when the app folder code is updated
+        - 'app/**' # triggers the workflow when the app folder code is updated
 env:
     Registry: ghcr.io
     Repository: memor24/imgfolder
@@ -30,18 +30,10 @@ jobs:
                 username: ${{ github.actor }}
                 password: ${{ secrets.GITHUB_TOKEN }}
 
-        - name: Debug environment variables
-          run: |
-            echo "Registry: ${{ env.Registry }}"
-            echo "Repository: ${{ env.Repository }}"
-            echo "GITHUB_SHA: ${{ github.sha }}"
-
         - name: build & push the image with updated image tag
-          uses: docker/build-push-action@v4
-          with:
-                context: .
-                push: true
-                tags: ${{ env.Registry }}/${{ env.Repository }}:${{ github.sha }}
+          run: |
+            docker build -t ${{ env.Registry }}/${{ env.Repository }}:${{ github.sha }} .
+            docker push ${{ env.Registry }}/${{ env.Repository }}:${{ github.sha }}
 
         - name: notifying message
           run: |
