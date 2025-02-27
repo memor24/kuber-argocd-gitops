@@ -8,21 +8,17 @@ on:
         - 'app/**' # triggers the workflow when the app folder code is updated
 # workflow_dispatch: # activates manual trigger for testing
 
-  permissions: # github actions permissions to access the repository and the registry
-    contents: read
-    packages: write
-    
 env:
     Registry: ghcr.io
     Repository: memor24/my_images_dir
 
 jobs:
   build:
-  runs-on: ubuntu-latest
-  permissions:
-    contents: read
-    packages: write
-  steps:
+    runs-on: ubuntu-latest
+    permissions:  # github actions permissions to access the repository and the registry
+      contents: read
+      packages: write
+    steps:
         - name: checkout the code
           uses: actions/checkout@v2
 
@@ -34,20 +30,23 @@ jobs:
                 password: ${{ secrets.GITHUB_TOKEN }}
 
         - name: build & push the image with updated image tag
-          run: |
           uses: docker/build-push-action@v4
           with:
                 context: .
                 push: true
-                tag: ${{ env.Registry }}/${{ env.Repository }}:${{ github.sha }}
-
+                tags: ${{ env.Registry }}/${{ env.Repository }}:${{ github.sha }}
           # used docker/build-push-action@v4 for caching & optimization instead of:
           # docker build -t $Registry/$Repository:$GITHUB_SHA .
           # docker push $Registry/$ImageRepo:$GITHUB_SHA
-          
-        
+
         - name: notifying message
           run: |
             echo "ci job is completed"
-
+        - name: Debug environment variables
+          run: |
+            echo "Registry: ${{ env.Registry }}"
+            echo "Repository: ${{ env.Repository }}"
+            echo "GITHUB_SHA: ${{ github.sha }}"
+        - name: Debug repository structure
+          run: ls -R
         
