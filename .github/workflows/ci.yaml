@@ -32,8 +32,9 @@ jobs:
 
         - name: build & push the image with updated image tag
           run: |
-            docker build -t ${{ env.Registry }}/${{ env.Repository }}:${{ github.sha }} .
-            docker push ${{ env.Registry }}/${{ env.Repository }}:${{ github.sha }}
+            docker build -t my-app:latest .
+            docker tag my-app:latest my-app:${{ github.sha }}
+            docker push ${{ env.Registry }}/${{ env.Repository }}
 
         - name: notifying message
           run: |
