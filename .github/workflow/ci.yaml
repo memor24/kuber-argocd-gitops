@@ -4,9 +4,9 @@ on:
   push:
       branches:
         - main
-      # paths: 
-      #   - 'app/**' # triggers the workflow when the app folder code is updated
-workflow_dispatch: # activates manual trigger for testing
+      paths: 
+        - 'app/**' # triggers the workflow when the app folder code is updated
+#workflow_dispatch: # activates manual trigger for testing
 
 env:
     Registry: ghcr.io
@@ -35,9 +35,6 @@ jobs:
                 context: .
                 push: true
                 tags: ${{ env.Registry }}/${{ env.Repository }}:${{ github.sha }}
-          # used docker/build-push-action@v4 for caching & optimization instead of:
-          # docker build -t $Registry/$Repository:$GITHUB_SHA .
-          # docker push $Registry/$ImageRepo:$GITHUB_SHA
 
         - name: notifying message
           run: |
