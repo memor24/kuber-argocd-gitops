@@ -32,7 +32,7 @@ jobs:
 
         - name: build & push the image with updated image tag
           run: |
-            docker build -t my-app:latest ./app
+            docker build -t my-app:latest .
             docker tag my-app:latest my-app:${{ github.sha }}
             docker push ${{ env.Registry }}/${{ env.Repository }}/my-app:${{ github.sha }}
 
