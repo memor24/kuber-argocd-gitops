@@ -17,8 +17,6 @@ jobs:
       contents: read
       packages: write
     steps:
-        - name: Debug repository structure
-          run: ls -R
 
         - name: checkout the code
           uses: actions/checkout@v2
@@ -36,9 +34,6 @@ jobs:
             docker tag my-app:${{  github.sha }} ${{ env.Registry }}/${{ env.Repository }}/my-app:${{ github.sha }}
             docker push ${{ env.Registry }}/${{ env.Repository }}/my-app:${{ github.sha }}
 
-        - name: notifying message
-          run: |
-            echo "ci job is completed"
 
 
         
