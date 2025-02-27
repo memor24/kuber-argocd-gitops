@@ -5,7 +5,7 @@ on:
       branches:
         - main
       paths: 
-        - 'app/**' # triggers the workflow when the app folder code is updated
+        - 'app/src/**' # triggers the workflow when the app folder code is updated
 #workflow_dispatch: # activates manual trigger for testing
 
 env:
