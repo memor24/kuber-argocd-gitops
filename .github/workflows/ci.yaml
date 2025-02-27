@@ -34,7 +34,7 @@ jobs:
           run: |
             docker build -t my-app:latest .
             docker tag my-app:latest my-app:${{ github.sha }}
-            docker push ${{ env.Registry }}/${{ env.Repository }}
+            docker push ${{ env.Registry }}/${{ env.Repository }}/my-app:${{ github.sha }}
 
         - name: notifying message
           run: |
