@@ -2,10 +2,10 @@ name: CI of the app itself; CD on KinD will be managed through GitOps with argoC
 
 on:
   push:
-      path: 
-        - 'app/**' # triggers the workflow when the app folder code is updated
       branches:
         - main
+      paths: 
+        - 'app/**' # triggers the workflow when the app folder code is updated
 
 permissions: # github actions permissions to access the repository and the registry
     contents: read
