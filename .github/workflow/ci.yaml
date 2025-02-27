@@ -8,6 +8,10 @@ on:
         - 'app/**' # triggers the workflow when the app folder code is updated
 # workflow_dispatch: # activates manual trigger for testing
 
+  permissions: # github actions permissions to access the repository and the registry
+    contents: read
+    packages: write
+    
 env:
     Registry: ghcr.io
     Repository: memor24/my_images_dir
@@ -15,7 +19,7 @@ env:
 jobs:
   build:
   runs-on: ubuntu-latest
-  permissions: # github actions permissions to access the repository and the registry
+  permissions:
     contents: read
     packages: write
   steps:
