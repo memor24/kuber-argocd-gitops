@@ -4,8 +4,8 @@ on:
   push:
       branches:
         - main
-      paths: 
-        - 'app/**' # triggers the workflow when the app folder code is updated
+      # paths: 
+      #   - 'app/**' # triggers the workflow when the app folder code is updated
 # workflow_dispatch: # activates manual trigger for testing
 
 env:
