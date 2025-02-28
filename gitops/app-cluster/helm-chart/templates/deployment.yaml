@@ -4,7 +4,7 @@ metadata:
   name: {{ .Chart.Name }}
   labels:
 spec:
-  replicas: 1   # pods deployed on each worker node (horizontal scaling)
+  replicas: 2   # pods deployed on each worker node (horizontal scaling)
   selector:
     matchLabels:
       app: {{ .Chart.Name }}
@@ -17,6 +17,6 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           ports:
-            - containerPort: 6666 # This is the port that the container listens on and Flask app runs on
+            - containerPort: 8080 # This is the port that the container listens on and Flask app runs on
       imagePullSecrets:
         {{- toYaml .Values.image.PullSecrets | nindent 8 }}

@@ -6,4 +6,4 @@ PullSecrets: []   # secret to pull from private repo
 
 service:
   type: ClusterIP
-  port: 80
+  port: 8080
