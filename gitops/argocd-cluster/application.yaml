@@ -1,20 +1,20 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: my-app
-  namespace: argocd      # namespace where the application resource is created
+  name: my-argocd-application
+  namespace: argocd      # namespace where the resource is created
 spec:
   project: default
   source:
     repoURL: https://github.com/memor24/kubernetes-gitops-argocd.git
-    path: gitops/argocd                             # path to the manifests in the repo
+    path: gitops/app-cluster                             # path to the manifests in the repo
     targetRevision: HEAD                            # Git branch, tag, or commit SHA
   destination:
-    server: https://kubernetes.default.svc 
-    namespace: app-ns                               # namespace to deploy the app
+    server: https://kubernetes.default.svc #tbu        # edit to:  app-cluster external url
+    namespace: my-app-ns                               # namespace to deploy the app
   syncPolicy:
     automated:
       prune: true                                   # deletes resources not in Git
-      selfHeal: true                               
-    syncOptions:                                    # additional sync options
+      selfHeal: true                                # disallows kubectl manual changes
+    syncOptions:                                    
       - CreateNamespace=true                        # creates the namespace if it doesn't exist

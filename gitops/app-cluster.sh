@@ -1,14 +1,10 @@
 #bin/bash
 
-# variables:
-KIND_CONFIG=./cluster/kind-config.yaml
-
-# extract control plane container ID in KinD
-#CP_CONTAINER=$(docker ps -q --filter "name=kind-control-plane")
-ARGOCD_NAMESPACE="argocd"
-APP_NAMESPACE="app-ns"
-HELM_CHART_DIR="./cluster/helm-chart"
-############################
+# global variables:
+KIND_CONFIG=./app-cluster/app-kind-config.yaml
+APP_NAMESPACE="my-app-ns"
+HELM_CHART_DIR="./app-cluster/helm-chart"
+#####################################################
 
 # check function to check if a command already exists
 command_exists(){
@@ -31,9 +27,9 @@ install_kind(){
 setup_cluster(){
     if ! kind get clusters | grep -q kind; then
         echo "creating kind cluster"
-        kind create cluster --name mykind --config "$KIND_CONFIG"
+        kind create cluster --name app-cluster --config "$KIND_CONFIG"
     else
-        echo "kind cluster is already running"
+        echo "KinD cluster is already running"
     fi
 }
 
@@ -42,18 +38,18 @@ install_tools4_cluster (){
     echo "installing tools -kubectl, helm- inside the cluster"
 
     # extract control plane container ID in KinD as a local variable
-    CP_CONTAINER=$(docker ps -q --filter "name=kind-control-plane")
+    CP_CONTAINER=$(docker ps -q --filter "name=control-plane")
 
     # installing kubectl
     docker exec $CP_CONTAINER bash -c "curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" && \
     chmod +x ./kubectl && \
     mv ./kubectl /usr/local/bin/kubectl"
     
-    # # installing Helm
-    # docker exec $CP_CONTAINER bash -c "curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 && \
-    # chmod 700 get_helm.sh && \
-    # ./get_helm.sh && \
-    # rm get_helm.sh"
+    #  installing Helm
+    docker exec $CP_CONTAINER bash -c "curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 && \
+    chmod 700 get_helm.sh && \
+    ./get_helm.sh && \
+    rm get_helm.sh"
 
 }
 
@@ -61,8 +57,8 @@ install_tools4_cluster (){
 verify_setup(){
     kind get clusters
 
-        # extract control plane container ID in KinD as a local variable
-    CP_CONTAINER=$(docker ps -q --filter "name=kind-control-plane")
+# extract control plane container ID in KinD as a local variable
+    CP_CONTAINER=$(docker ps -q --filter "name=control-plane")
     
     echo "version of kubectl inside KinD" 
     docker exec $CP_CONTAINER bash -c "kubectl version"
@@ -73,24 +69,24 @@ verify_setup(){
 
 deploy_app(){
 
-    # extract control plane container ID in KinD as a local variable
+# extract control plane container ID in KinD as a local variable
     CP_CONTAINER=$(docker ps -q --filter "name=control-plane")
    
 docker exec "$CP_CONTAINER"  bash -c << 'EOF'
-    if [ -d ./cluster/helm-chart ] ; then 
-        helm lint "./cluster/helm-chart" && 
-        helm install my-app "./cluster/helm-chart" --namespace app-ns && 
-        echo "finished deploying the app" && 
-        helm status my-app 
-        echo "finished deploying the app."
+if [ -d ./app-cluster/helm-chart ] ; then 
+            helm lint "./app-cluster/helm-chart" && 
+            helm install my-app "./app-cluster/helm-chart" --namespace my-app-ns && 
+            echo "the app status is:" && 
+            helm status my-app 
+            echo "finished deploying my-app"
     else
-        echo "helm chart directory doesn't exist."
-    fi
+            echo "helm chart directory doesn't exist."
+fi
 EOF
 }
 
 # calling the functions
-echo "setting up kind cluster and configs"
+echo "setting up my-app cluster and configs"
     install_kind
     setup_cluster
     install_tools4_cluster
