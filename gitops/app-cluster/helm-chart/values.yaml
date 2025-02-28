@@ -1,9 +1,0 @@
-image:
-  repository: ""
-  pullPolicy: ""
-  tag: ""   # Overrides the image tag whose default is the chart appVersion
-PullSecrets: []   # secret to pull from private repo
-
-service:
-  type: ClusterIP
-  port: 8080
