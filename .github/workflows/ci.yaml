@@ -34,6 +34,4 @@ jobs:
             docker tag my-app:${{  github.sha }} ${{ env.Registry }}/${{ env.Repository }}/my-app:${{ github.sha }}
             docker push ${{ env.Registry }}/${{ env.Repository }}/my-app:${{ github.sha }}
 
-
-
-        
+# update manifests with the new image
