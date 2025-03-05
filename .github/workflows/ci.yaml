@@ -66,7 +66,7 @@ jobs:
             echo "Setting up port forwarding to access argoCD locally https://localhost:8080"
             kubectl port-forward svc/argocd-server -n argocd 8080:443 & PORT_FORWARD_PID=$!
             ARGOCD_PASSWORD=$(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)
-            echo "initial_password"=$ARGOCD_PASSWORD "
+            echo "initial_password=$ARGOCD_PASSWORD"
 
 
 # initial deployment of manifests on --namespace app-ns on the cluster
