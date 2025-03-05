@@ -8,7 +8,7 @@ on:
         - 'app/**' # triggers the workflow when the app folder code is updated
 env:
     Registry: ghcr.io
-    Repository: memor24/imgfolder
+    Repository: memor24/kag-imgfolder
 
 jobs:
   build:
@@ -34,4 +34,16 @@ jobs:
             docker tag my-app:${{  github.sha }} ${{ env.Registry }}/${{ env.Repository }}/my-app:${{ github.sha }}
             docker push ${{ env.Registry }}/${{ env.Repository }}/my-app:${{ github.sha }}
 
-# update manifests with the new image
+
+# install and run KinD
+
+
+# install and run argoCD --namespace argocd on the empty cluster 
+
+## argoCD installs kubectl and git for its own use by default
+
+
+# update manifests with the new image using application.yml (GitOps) 
+              # source: git repo /app/**
+              # destination:  default.kubernetes.io (same cluster)
+# deploy manifests on --namespace app-ns on the cluster

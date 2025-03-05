@@ -6,8 +6,8 @@ COPY requirements.txt .
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY src/myapp.py .
+COPY src/my-app.py .
 
 EXPOSE 6666
 
-CMD [ "gunicorn", "--bind", "0.0.0.0:6666", "myapp:app"]
+CMD [ "gunicorn", "--bind", "0.0.0.0:6666", "my-app:app"]

@@ -2,12 +2,12 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: my-argocd-application
-  namespace: argocd      # namespace where the resource is created
+  namespace: argocd      
 spec:
   project: default
   source:
     repoURL: https://github.com/memor24/kubernetes-gitops-argocd.git
-    path: gitops/app-cluster/                       # path to what we want to sync: helm charts, or e.g. varied env (dev, qa, prod) manifests with kustomize overlays
+    path: /gitops                                   # path to what we want to sync: helm charts, or e.g. varied env (dev, qa, prod) manifests with kustomize overlays
     targetRevision: HEAD                            # Git branch, tag, or commit SHA
   destination:
     server: https://kubernetes.default.svc          #tbu http://127.0.0.1:59831/ to: app-cluster external url if any
