@@ -14,11 +14,11 @@ spec:
     spec:
       containers:
         - name: my-app
-          image: ""           # overrides the image
+          image: ""           # overrides the image, repo, tag
           repository: ""
           tag: ""           
-        # pullPolicy: ""
-        # pullSecrets: []   # secret to pull from private repo
+          pullPolicy: "Always"   # "IfNotPresent" in prod
+          pullSecrets: []   # secret to pull image from private repo
           ports:
             - containerPort: 8080
           resources:

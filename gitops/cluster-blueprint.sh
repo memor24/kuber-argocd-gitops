@@ -7,7 +7,7 @@
 
 # global variables:
 KIND_CONFIG=./argocd-cluster/argocd-kind-config.yaml
-ARGOCD_NAMESPACE="argocd"
+ARGOCD_NAMESPACE=argocd
 
 # check function to check if a command already exists
 command_exists(){
@@ -30,17 +30,17 @@ install_kind(){
 setup_cluster(){
     if ! kind get clusters | grep -q kind; then
         echo "creating kind cluster"
-        kind create cluster --name argocd-cluster --config "$KIND_CONFIG"
+        kind create cluster --name my-cluster --config "$KIND_CONFIG"
     else
         echo "KinD cluster is already running"
     fi
 }
 
 # extract control plane container ID in KinD
-ACD_CP_CONTAINER=$(docker ps -q --filter "name=control-plane") # argocd-control-plane
+CP_CONTAINER=$(docker ps -q --filter "name=control-plane") # argocd-control-plane
 
 # install argoCD server inside the KinD cluster
-docker exec $ACD_CP_CONTAINER bash -c \ "
+docker exec $CP_CONTAINER bash -c \ "
 kubectl create namespace "$ARGOCD_NAMESPACE" && \
 kubectl apply -n $ARGOCD_NAMESPACE -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml && \
 kubectl wait --for=condition=available --timeout=300s deployment -l app.kubernetes.io/name=argocd-server -n $ARGOCD_NAMESPACE"
@@ -138,7 +138,6 @@ verify_setup(){
 }
 
 deploy_app(){
-
 # extract control plane container ID in KinD as a local variable
     CP_CONTAINER=$(docker ps -q --filter "name=control-plane")
    

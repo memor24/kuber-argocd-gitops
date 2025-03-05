@@ -7,10 +7,10 @@ spec:
   project: default
   source:
     repoURL: https://github.com/memor24/kubernetes-gitops-argocd.git
-    path: /gitops                                   # path to what we want to sync: helm charts, or e.g. varied env (dev, qa, prod) manifests with kustomize overlays
+    path: /app/**                                   # path to what we want to sync e.g. app git repo
     targetRevision: HEAD                            # Git branch, tag, or commit SHA
   destination:
-    server: https://kubernetes.default.svc          #tbu http://127.0.0.1:59831/ to: app-cluster external url if any
+    server: https://kubernetes.default.svc          ## to: app-cluster external url if any
     namespace: my-app-ns                            # namespace to deploy the app
   syncPolicy:
     automated:
