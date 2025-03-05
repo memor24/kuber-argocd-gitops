@@ -10,4 +10,4 @@ COPY src/my-app.py .
 
 EXPOSE 6666
 
-CMD [ "gunicorn", "--bind", "0.0.0.0:6666", "my-app:app"]
+CMD [ "gunicorn", "--bind", "0.0.0.0:8080", "my-app:app"]
