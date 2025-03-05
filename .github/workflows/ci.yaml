@@ -47,18 +47,18 @@ jobs:
 
         - name: install kubectl inside the cluster
           run: |
-            CP_CONTAINER=$(docker ps -q --filter "name=control-plane") # clusster-control-plane
-            docker exec $CP_CONTAINER bash -c \ "
+            CP_CONTAINER=$(docker ps -q --filter "name=control-plane") # cluster-control-plane
+            docker exec "$CP_CONTAINER" bash -c \ "
             curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
             chmod +x ./kubectl
-            sudo mv ./kubectl /usr/local/bin/kubectl
+            sudo mv ./kubectl /usr/local/bin/kubectl "
           
 
 # install, configure and run argoCD --namespace argocd on the empty cluster 
         - name: install and run argocd on a namespace in the cluster
           run: |
             CP_CONTAINER=$(docker ps -q --filter "name=control-plane") # cluster-control-plane
-            docker exec $CP_CONTAINER bash -c \ "
+            docker exec "$CP_CONTAINER" bash -c \ "
             kubectl create namespace "argocd" && \
             kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml && \
             kubectl wait --for=condition=available --timeout=300s deployment -l app.kubernetes.io/name=argocd-server -n $ARGOCD_NAMESPACE"
@@ -73,9 +73,9 @@ jobs:
         - name: initial deploymet of the app
           run: |
             CP_CONTAINER=$(docker ps -q --filter "name=control-plane") # cluster-control-plane
-            docker exec $CP_CONTAINER bash -c \ "
+            docker exec "$CP_CONTAINER" bash -c \ "
             kubectl apply -f ./gitops/deployment.yaml --namespace app-ns
-            kubectl get svc --namespace all
+            kubectl get svc --namespace all "
 
 # argoCD looks for any changes in git repo e.g. new image tag, using application.yml (GitOps) 
               # source: git repo 
