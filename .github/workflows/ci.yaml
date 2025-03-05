@@ -35,7 +35,7 @@ jobs:
             docker push ${{ env.Registry }}/${{ env.Repository }}/my-app:${{ github.sha }}
 
 
-# can be done manually for one time and monitored with argoCD
+####### to run manually for one time and be monitored with argoCD ######
         - name: install KinD
           run: |
             curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.20.0/kind-linux-amd64
@@ -61,7 +61,7 @@ jobs:
             docker exec "$CP_CONTAINER" bash -c \ "
             kubectl create namespace "argocd" && \
             kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml && \
-            kubectl wait --for=condition=available --timeout=300s deployment -l app.kubernetes.io/name=argocd-server -n $ARGOCD_NAMESPACE"
+            kubectl wait --for=condition=available --timeout=300s deployment -l app.kubernetes.io/name=argocd-server -n argocd
             echo "configuring argoCD server...
             echo "Setting up port forwarding to access argoCD locally https://localhost:8080"
             kubectl port-forward svc/argocd-server -n $ARGOCD_NAMESPACE 8080:443 & PORT_FORWARD_PID=$!
