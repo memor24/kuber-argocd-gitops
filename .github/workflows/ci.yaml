@@ -74,7 +74,7 @@ jobs:
           run: |
             CP_CONTAINER=$(docker ps -q --filter "name=control-plane") # cluster-control-plane
             docker exec "$CP_CONTAINER" bash -c \ "
-            kubectl apply -f ./gitops/deployment.yaml --namespace app-ns
+            kubectl apply -f ../../gitops/deployment.yaml --namespace app-ns
             kubectl get svc --namespace all "
 
 # argoCD looks for any changes in git repo e.g. new image tag, using application.yml (GitOps) 
