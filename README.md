@@ -41,4 +41,4 @@ kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.pas
 Use that initial password to login to ArgoCD via `https://localhost:8080` or use ArgoCD CLI to interact with it.
 In prod, you want to use loadbalancing and DNS to have a stable ArgoCD access.
 
-Initial deployment of the app on the app namespace in the cluster is done by running application.yaml
+Initial deployment of the app on the app namespace in the cluster is done by ArgoCd using application.yaml every 3 minutes by default.
