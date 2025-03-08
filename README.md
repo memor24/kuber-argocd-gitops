@@ -27,7 +27,9 @@ kind create cluster --name my-cluster --config "./gitops/cluster-config.yaml"
 
 Install, configure and run argoCD --namespace argocd on the empty cluster:
 ```
-CP_CONTAINER=docker ps -q --filter "name=control-plane" \
+docker ps -q --filter "name=control-plane"
+export CP_CONTAINER=<container-id>
+
 docker exec "$CP_CONTAINER" bash -c \ "
 kubectl create namespace "argocd" && \
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml && \
