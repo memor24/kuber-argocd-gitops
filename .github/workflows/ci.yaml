@@ -35,14 +35,14 @@ jobs:
             docker push ${{ env.Registry }}/${{ env.Repository }}/my-app:${{ github.sha }}
 
 
-        - name : create regcred kubernetes secret for kubectl acccess to ghcr
-          run: |
-            kubectl create secret docker-registry regcred \
-            --docker-server=ghcr.io \
-            --docker-username=${{ github.actor }} \
-            --docker-password=${{ secrets.GITHUB_TOKEN }} \
-            --docker-email=${{ github.actor }}@sth.co \
-          # --dry-run=client -o yaml | kubectl apply -f -
+        # - name : create regcred kubernetes secret for kubectl acccess to ghcr
+        #   run: |
+        #     kubectl create secret docker-registry regcred \
+        #     --docker-server=ghcr.io \
+        #     --docker-username=${{ github.actor }} \
+        #     --docker-password=${{ secrets.GITHUB_TOKEN }} \
+        #     --docker-email=${{ github.actor }}@sth.co \
+        #   # --dry-run=client -o yaml | kubectl apply -f -
    
 
 # argoCD looks for any changes in git repo app/** e.g. new image tag, 
