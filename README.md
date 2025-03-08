@@ -23,11 +23,11 @@ In prod, use Kustomize. In dev environment, use this one time manual steps:
 Make sure Docker engine is running:
 ```
 kind create cluster --name my-cluster --config "./gitops/cluster-config.yaml"
-docker ps -q --filter "name=control-plane"
 ```
 
 Install, configure and run argoCD --namespace argocd on the empty cluster:
 ```
+CP_CONTAINER=docker ps -q --filter "name=control-plane" \
 docker exec "$CP_CONTAINER" bash -c \ "
 kubectl create namespace "argocd" && \
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml && \
@@ -41,4 +41,4 @@ kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.pas
 Use that initial password to login to ArgoCD via `https://localhost:8080` or use ArgoCD CLI to interact with it.
 In prod, you want to use loadbalancing and DNS to have a stable ArgoCD access.
 
-Initial deployment of the app on the app namespace in the cluster is done by running application.yaml
+Initial deployment of the app on the app namespace in the cluster is done by ArgoCd using application.yaml every 3 minutes by default.
