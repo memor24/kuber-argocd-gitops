@@ -41,9 +41,4 @@ kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.pas
 Use that initial password to login to ArgoCD via `https://localhost:8080` or use ArgoCD CLI to interact with it.
 In prod, you want to use loadbalancing and DNS to have a stable ArgoCD access.
 
-Initial deployment of the app on --namespace app-ns on the cluster:
-```
-docker exec "$CP_CONTAINER" bash -c \ "
-kubectl create namespace app-ns && \
-kubectl apply --namespace app-ns -f https://github.com/memor24/kuber-argocd-gitops/blob/main/gitops/deployment.yaml"
-```
+Initial deployment of the app on the app namespace in the cluster is done by running application.yaml
