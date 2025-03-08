@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/memor24/kubernetes-gitops-argocd.git
+    repoURL: https://github.com/memor24/kuber-argocd-gitops.git
     path: /app/**                                   # path to what we want to sync e.g. app git repo
     targetRevision: HEAD                            # Git branch, tag, or commit SHA
   destination:

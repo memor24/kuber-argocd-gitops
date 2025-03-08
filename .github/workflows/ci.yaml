@@ -35,51 +35,17 @@ jobs:
             docker push ${{ env.Registry }}/${{ env.Repository }}/my-app:${{ github.sha }}
 
 
-####### to run manually for one time and be monitored with argoCD ######
-        - name: install KinD
+        - name : create regcred kubernetes secret for kubectl acccess to ghcr
           run: |
-            curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.20.0/kind-linux-amd64
-            chmod +x ./kind
-            sudo mv ./kind /usr/local/bin/kind
+            kubectl create secret docker-registry regcred \
+            --docker-server=ghcr.io \
+            --docker-username=${{ github.actor }} \
+            --docker-password=${{ secrets.GITHUB_TOKEN }} \
+            --docker-email=${{ github.actor }}@sth.co \
+            --dry-run=client -o yaml | kubectl apply -f -
+   
 
-        - name: create KinD cluster
-          run: kind create cluster --name my-cluster --config "./gitops/cluster-config.yaml"
-
-        - name: install kubectl inside the cluster
-          run: |
-            CP_CONTAINER=$(docker ps -q --filter "name=control-plane") # cluster-control-plane
-            docker exec "$CP_CONTAINER" bash -c \ "
-            curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
-            chmod +x ./kubectl
-            mv ./kubectl /usr/local/bin/kubectl "
-          
-
-# install, configure and run argoCD --namespace argocd on the empty cluster 
-        - name: install and run argocd on a namespace in the cluster
-          run: |
-            CP_CONTAINER=$(docker ps -q --filter "name=control-plane") # cluster-control-plane
-            docker exec "$CP_CONTAINER" bash -c \ "
-            kubectl create namespace "argocd" && \
-            kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml && \
-            kubectl wait --for=condition=available --timeout=300s deployment -l app.kubernetes.io/name=argocd-server -n argocd
-            echo "configuring argoCD server...
-            echo "Setting up port forwarding to access argoCD locally https://localhost:8080"
-            kubectl port-forward svc/argocd-server -n argocd 8080:443 & PORT_FORWARD_PID=$!
-            ARGOCD_PASSWORD=$(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)
-            echo "initial_password=$ARGOCD_PASSWORD"
-
-
-# initial deployment of manifests on --namespace app-ns on the cluster
-        - name: initial deploymet of the app
-          run: |
-            CP_CONTAINER=$(docker ps -q --filter "name=control-plane") # cluster-control-plane
-            docker exec "$CP_CONTAINER" bash -c \ "
-            kubectl apply -f ./gitops/deployment.yaml --namespace app-ns
-            kubectl get svc --namespace all "
-
-# argoCD looks for any changes in git repo e.g. new image tag, using application.yml (GitOps) 
+# argoCD looks for any changes in git repo app/** e.g. new image tag, 
+              ## using application.yml (GitOps) 
               ## source: git repo 
               ## destination:  kubernetes.default.svc (same cluster)
-
-
-
