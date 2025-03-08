@@ -21,7 +21,7 @@ spec:
           pullPolicy: "Always"   # "IfNotPresent" in prod
           pullSecrets: []        # secret to pull image from private repo using regcred in ci.yml
           # ports:
-          #   - containerPort: 8080
+          #   - containerPort: 6666
           # resources:
           #   requests:
           #     memory: "256Mi"
