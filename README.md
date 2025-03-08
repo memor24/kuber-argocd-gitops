@@ -35,10 +35,12 @@ kubectl wait --for=condition=available --timeout=300s deployment -l app.kubernet
 ```
 For dev environment, use port forwarding in a new terminal to access ArgoCD:
 ```
-kubectl port-forward svc/argocd-server -n argocd 8080:443 & PORT_FORWARD_PID=$!
+kubectl port-forward svc/argocd-server -n argocd 8888:443 & PORT_FORWARD_PID=$!
+```
+```
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
 ```
-Use that initial password to login to ArgoCD via `https://localhost:8080` or use ArgoCD CLI to interact with it.
+Use that initial password to login to ArgoCD via `https://localhost:8888` or use ArgoCD CLI to interact with it.
 In prod, you want to use loadbalancing and DNS to have a stable ArgoCD access.
 
 Initial deployment of the app on the app namespace in the cluster is done by ArgoCd using application.yaml every 3 minutes by default.
