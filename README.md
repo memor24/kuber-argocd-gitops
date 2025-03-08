@@ -23,11 +23,11 @@ In prod, use Kustomize. In dev environment, use this one time manual steps:
 Make sure Docker engine is running:
 ```
 kind create cluster --name my-cluster --config "./gitops/cluster-config.yaml"
-docker ps -q --filter "name=control-plane"
 ```
 
 Install, configure and run argoCD --namespace argocd on the empty cluster:
 ```
+CP_CONTAINER=docker ps -q --filter "name=control-plane" \
 docker exec "$CP_CONTAINER" bash -c \ "
 kubectl create namespace "argocd" && \
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml && \
