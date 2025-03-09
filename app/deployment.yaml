@@ -15,5 +15,6 @@ spec:
       app: my-app
     spec:
       containers:
-        - name: my-app      # to override the image, repo, tag using helm chart
-          image: "ghcr.io/memor24/kag-imgfolder/my-app:85f52d1183312b1cf282202b7926959c9e75e049"
+        - name: my-app-cntnr 
+          image: "ghcr.io/memor24/kag-imgfolder/my-app:1.7"
+          #image: "ghcr.io/memor24/kag-imgfolder/my-app:85f52d1183312b1cf282202b7926959c9e75e049"
