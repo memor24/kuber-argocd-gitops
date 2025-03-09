@@ -6,7 +6,7 @@ COPY requirements.txt .
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY src/my-app.py .
+COPY src/myapp.py src/tests/myapp-test.py .
 
 EXPOSE 8080
 

@@ -5,7 +5,7 @@ import requests
 
 class TestMyappGunicorn(unittest.TestCase):
     def setUp(self): # start the server in a separate process
-        self.process = subprocess.Popen(['gunicorn','-b', 'localhost:6666', 'myapp:app'])
+        self.process = subprocess.Popen(['gunicorn','-b', 'localhost:8080', 'myapp:app'])
         time.sleep(2) # give it 2 seconds to start
 
     def tearDown(self):
