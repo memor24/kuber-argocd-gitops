@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/memor24/kuber-argocd-gitops.git
-    path: app                                       # path to what we want to sync e.g. app git repo
+    path: app                                      # path to what we want to sync e.g. app git repo
     targetRevision: HEAD                            # Git branch, tag, or commit SHA
   destination:
     server: https://kubernetes.default.svc          ## to: app-cluster external url if any
