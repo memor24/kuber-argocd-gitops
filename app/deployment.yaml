@@ -16,8 +16,8 @@ spec:
     spec:
       containers:
         - name: my-app      # to override the image, repo, tag using helm chart
-          image: "ghcr.io/memor24/kag-imgfolder/my-app:1.4   
-      pullPolicy: "Always"   # "IfNotPresent" in prod
+          image: "ghcr.io/memor24/kag-imgfolder/my-app   
+          imagePullPolicy: Always
     #pullSecrets: []        # secret to pull image from private repo using regcred in ci.yml
           # ports:
           #   - containerPort: 6666
