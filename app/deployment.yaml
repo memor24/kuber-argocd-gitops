@@ -10,16 +10,15 @@ spec:
     matchLabels:
       app: my-app
   template:
-    labels:
+    metadata:
+     labels:
       app: my-app
     spec:
       containers:
         - name: my-app      # overrides the image, repo, tag
-          image: "my-app"  
-          repository: "ghcr.io/memor24/kag-imagefolder/"
-          tag: {{ github.sha }}           
-          pullPolicy: "Always"   # "IfNotPresent" in prod
-          pullSecrets: []        # secret to pull image from private repo using regcred in ci.yml
+          image: "ghcr.io/memor24/kag-imgfolder/my-app:1.2         
+      pullPolicy: "Always"   # "IfNotPresent" in prod
+    #pullSecrets: []        # secret to pull image from private repo using regcred in ci.yml
           # ports:
           #   - containerPort: 6666
           # resources:
