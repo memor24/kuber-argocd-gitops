@@ -9,19 +9,6 @@ def hifunc():
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080)
 
-    # test1
-    # test2
-    # test3
-    # test4
-    # test 5
-    #  test6
-    # test7
-    #test 8
-    # test 9
-    # test 10
-    # test 11
-    # test 13
-    # test 14
-    # test 15
+
 
 
